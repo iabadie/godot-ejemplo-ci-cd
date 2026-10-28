@@ -37,4 +37,4 @@ jobs:
             exit 0
           fi
 
-          run: python .github/scripts/review.py
+          python .github/scripts/review.py
