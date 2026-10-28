@@ -25,7 +25,7 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-          files: builds/*.exe
+          files: /home/runner/.local/share/godot/builds/Windows Desktop/release.exe
           tag_name: v1.0.${{ github.run_number }}
           name: "Release v1.0.${{ github.run_number }}"
           body: "New Release version from main"
