@@ -13,7 +13,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Notificar éxito a Discord
-        run: |
-            curl -H "Content-Type: application/json" \
-                -X POST \
-                -d "{\"content\": \"**Nuevo PR:**\n**Título:** ${{ github.event.pull_request.title }}\n**Link:** ${{ github.event.pull_request.html_url }}" \
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: "**Nuevo PR:**\n**Título:** ${{ github.event.pull_request.title }}\n**Link:** ${{ github.event.pull_request.html_url }}"

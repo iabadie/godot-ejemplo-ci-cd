@@ -25,23 +25,23 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-          files: builds/*.zip
+          files: builds/*.exe
           tag_name: v1.0.${{ github.run_number }}
           name: "Release v1.0.${{ github.run_number }}"
           body: "New Release version from main"
 
       - name: Notificar Discord
         if: success()
-        run: |
-          curl -H "Content-Type: application/json" \
-               -X POST \
-               -d "{\"content\": \"Se acaba de compilar una nueva release. Ya se puede descargar la última versión desde GitHub: ${{ steps.create_release.outputs.url }}" \
-               ${{ secrets.DISCORD_WEBHOOK }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: "Se acaba de compilar una nueva release. Ya se puede descargar la última versión desde GitHub: ${{ steps.create_release.outputs.url }}"
 
       - name: Notificar error a Discord
         if: failure()
-        run: |
-          curl -H "Content-Type: application/json" \
-               -X POST \
-               -d "{\"content\": \"Hubo un fallo en la compilación del juego. Revisar los logs" \
-               ${{ secrets.DISCORD_WEBHOOK }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: "Hubo un fallo en la compilación del juego. Revisar los logs"
