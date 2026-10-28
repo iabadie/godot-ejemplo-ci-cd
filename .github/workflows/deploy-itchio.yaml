@@ -30,17 +30,16 @@ jobs:
 
       - name: Notificar en Discord
         if: success()
-        uses: Ilshadur/discord-webhook-notification@v1.2.0
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          severity: info
-          text: "**Nueva versión disponible en itch.io**"
-          
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d "{\"content\": \"**Nueva versión disponible en itch.io**" \
+               ${{ secrets.DISCORD_WEBHOOK }}
 
       - name: Notificar error a Discord
         if: failure()
-        uses: Ilshadur/discord-webhook-notification@v1.2.0
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          severity: error
-          text: "Hubo un error en la compilación o publicación de itchio"
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d "{\"content\": \"Hubo un error en la compilación o publicación de itchio" \
+               ${{ secrets.DISCORD_WEBHOOK }}

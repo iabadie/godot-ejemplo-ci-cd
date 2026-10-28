@@ -13,11 +13,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Notificar éxito a Discord
-        uses: Ilshadur/discord-webhook-notification@v1.2.0
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          severity: info
-          text: |
-            **Nuevo PR:**
-            **Título:** ${{ github.event.pull_request.title }}
-            **Link:** ${{ github.event.pull_request.html_url }}
+        run: |
+            curl -H "Content-Type: application/json" \
+                -X POST \
+                -d "{\"content\": \"**Nuevo PR:**\n**Título:** ${{ github.event.pull_request.title }}\n**Link:** ${{ github.event.pull_request.html_url }}" \

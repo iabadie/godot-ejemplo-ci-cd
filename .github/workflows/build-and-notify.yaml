@@ -32,16 +32,16 @@ jobs:
 
       - name: Notificar Discord
         if: success()
-        uses: Ilshadur/discord-webhook-notification@v1.2.0
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          severity: info
-          text: "Se acaba de compilar una nueva release. Ya se puede descargar la última versión desde GitHub: ${{ steps.create_release.outputs.url }}"
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d "{\"content\": \"Se acaba de compilar una nueva release. Ya se puede descargar la última versión desde GitHub: ${{ steps.create_release.outputs.url }}" \
+               ${{ secrets.DISCORD_WEBHOOK }}
 
       - name: Notificar error a Discord
         if: failure()
-        uses: Ilshadur/discord-webhook-notification@v1.2.0
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          severity: error
-          text: "Hubo un fallo en la compilación del juego. Revisar los logs"
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d "{\"content\": \"Hubo un fallo en la compilación del juego. Revisar los logs" \
+               ${{ secrets.DISCORD_WEBHOOK }}
