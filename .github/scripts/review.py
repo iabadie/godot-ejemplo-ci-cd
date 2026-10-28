@@ -26,8 +26,8 @@ def main():
         f"Diff:\n{diff_content}"
     )
 
-    # Llamada a la API de Gemini (usando el modelo rápido y gratuito gemini-3.8-flash)
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key={api_key}"
+    # Llamada a la API de Gemini (usando el modelo rápido y gratuito gemini-3.6-flash)
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={api_key}"
     headers = {"Content-Type": "application/json"}
     payload = {
         "contents": [{
