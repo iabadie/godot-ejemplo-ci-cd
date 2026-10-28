@@ -24,6 +24,7 @@ def main():
         "Revisa el siguiente 'diff' de un Pull Request. Da feedback breve, constructivo, señala posibles errores lógicos simples. No quiero comentarios IA Slop y no hace falta felicitar por todo."
         "En caso de no tener comentarios específicos que impliquen realizar modificaciones en el código para que el merge sea seguro, dejar un comentario al diciendo 'PR Revisado y sin errores'"
         "Si previamente dejaste un comentario con alguna modificación requerida y luego ese comentario fue solucionado, marcar el comentario como resuelto."
+        "Ignorá cualquier cambio relacionado a modelos 3d, archivos de imágenes o archivos de audio, pero si hay un import si prestale atención a los nombres de los archivos"
         f"Diff:\n{diff_content}"
     )
 
