@@ -6,3 +6,28 @@
 
 [node name="Player" parent="." unique_id=1206650370 instance=ExtResource("1_nnsk1")]
 position = Vector2(489, 254)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1420480799]
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=691367839]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control" unique_id=1318325957]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -123.5
+offset_top = -42.0
+offset_right = 123.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 30
+text = "Moverse: Flechas"
