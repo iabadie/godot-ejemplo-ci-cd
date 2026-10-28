@@ -1,0 +1,47 @@
+name: Compilar versión y notificar Discord
+
+on:
+  # push:
+  #   branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build para Windows
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Compilar ejecutable con Godot
+        uses: firebelley/godot-export@v7
+        with:
+          godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_export_templates.tpz
+          relative_project_path: ./
+          archive_output: true
+
+      - name: Crear Release y Subir a github releases
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: builds/*.zip
+          tag_name: v1.0.${{ github.run_number }}
+          name: "Release v1.0.${{ github.run_number }}"
+          body: "New Release version from main"
+
+      - name: Notificar Discord
+        if: success()
+        uses: Ilshadur/discord-webhook-notification@v1.2.0
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          severity: info
+          text: "Se acaba de compilar una nueva release. Ya se puede descargar la última versión desde GitHub: ${{ steps.create_release.outputs.url }}"
+
+      - name: Notificar error a Discord
+        if: failure()
+        uses: Ilshadur/discord-webhook-notification@v1.2.0
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          severity: error
+          text: "Hubo un fallo en la compilación del juego. Revisar los logs"

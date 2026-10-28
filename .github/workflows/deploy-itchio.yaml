@@ -1,0 +1,46 @@
+name: Deploy Build a itch.io
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-itch:
+    runs-on: ubuntu-latest
+    name: Compilar y Subir a itch.io
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Compilar ejecutable con Godot
+        uses: firebelley/godot-export@v7
+        with:
+          godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.7.2-stable_export_templates.tpz
+          relative_project_path: ./
+          archive_output: true
+
+      - name: Publicar en itch.io
+        uses: ManleyDev/godot-itch-deploy@v1.1.0
+        with:
+          game_path: /github/workspace/builds/
+          itch_user: "[USUARIO DE ITCHIO]"
+          itch_game: "[NOMBRE DEL JUEGO]"
+          package_channel: win-3d
+          api_key: ${{ secrets.ITCHIO_SECRET }}
+
+      - name: Notificar en Discord
+        if: success()
+        uses: Ilshadur/discord-webhook-notification@v1.2.0
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          severity: info
+          text: "**Nueva versión disponible en itch.io**"
+          
+
+      - name: Notificar error a Discord
+        if: failure()
+        uses: Ilshadur/discord-webhook-notification@v1.2.0
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          severity: error
+          text: "Hubo un error en la compilación o publicación de itchio"

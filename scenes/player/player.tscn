@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dayaa46kgjegw"]
+
+[ext_resource type="Script" uid="uid://6v0bpfcnggns" path="res://scenes/player/player.gd" id="1_8afob"]
+[ext_resource type="Texture2D" uid="uid://b0qsv6arm0lr0" path="res://assets/chick.png" id="2_dovo2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gmlin"]
+radius = 64.132675
+
+[node name="Player" type="CharacterBody2D" unique_id=1206650370]
+script = ExtResource("1_8afob")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=631678842]
+shape = SubResource("CircleShape2D_gmlin")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1692437724]
+texture = ExtResource("2_dovo2")
