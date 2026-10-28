@@ -15,7 +15,7 @@ jobs:
       - name: Checkout del código
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: Configurar entorno de Python
         uses: actions/setup-python@v5
@@ -31,7 +31,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
           # Obtenemos el diff de los cambios del PR
-          git diff origin/main...HEAD
+          git diff origin/${{ github.event.pull_request.base.ref }}...HEAD
           # Si el diff está vacío, salimos
           if [ ! -s diff.txt ]; then
             echo "No hay cambios para revisar."
