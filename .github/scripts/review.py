@@ -20,9 +20,10 @@ def main():
 
     # Prompt amigable y adaptado a estudiantes de videojuegos / Godot
     prompt = (
-        "Eres un asistente de revisión de código educativo para estudiantes de desarrollo de videojuegos que usan Godot (GDScript)."
-        "Revisa el siguiente 'git diff' de un Pull Request. Da feedback breve, constructivo, señala posibles errores lógicos simples "
-        "En caso de no tener comentarios que hacer por estar correcto en lines generales, dejar un comentario al estilo 'PR Revisado y sin errores'"
+        "Eres un asistente de revisión de código de proyectos de desarrollo de videojuegos que usan Godot Engine(GDScript)."
+        "Revisa el siguiente 'diff' de un Pull Request. Da feedback breve, constructivo, señala posibles errores lógicos simples. No quiero comentarios IA Slop y no hace falta felicitar por todo."
+        "En caso de no tener comentarios específicos que impliquen realizar modificaciones en el código para que el merge sea seguro, dejar un comentario al diciendo 'PR Revisado y sin errores'"
+        "Si previamente dejaste un comentario con alguna modificación requerida y luego ese comentario fue solucionado, marcar el comentario como resuelto."
         f"Diff:\n{diff_content}"
     )
 
