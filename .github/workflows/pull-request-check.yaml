@@ -3,6 +3,7 @@ name: Aviso de nuevo PR
 on:
   pull_request:
     branches: [ "main" ]
+    types: [ opened ]
 
 jobs:
   notify-discord:
