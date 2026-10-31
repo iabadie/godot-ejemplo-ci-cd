@@ -1,0 +1,41 @@
+name: AI Code Review en PR
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types: [ opened, synchronize ]
+
+jobs:
+  ai-review:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar entorno de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Analizar cambios y enviar a Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PR_COMMENTS_URL: ${{ github.event.pull_request.comments_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+          # Obtenemos el diff de los cambios del PR
+          git diff origin/${{ github.event.pull_request.base.ref }}...HEAD > diff.txt
+          # Si el diff está vacío, salimos
+          if [ ! -s diff.txt ]; then
+            echo "No hay cambios para revisar."
+            exit 0
+          fi
+
+          python .github/scripts/review.py
